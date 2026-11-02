@@ -7,26 +7,21 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.kinematicConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class OmniDriveCmd extends CommandBase {
   
   private final DriveSubsystem driveSubsystem;
-  private final XboxController joystick;
   /**
    * Creates a new OmniDriveCmd.
    */
-  public OmniDriveCmd(DriveSubsystem driveSubsystem, XboxController joystick) 
+  public OmniDriveCmd(DriveSubsystem driveSubsystem) 
   {
     this.driveSubsystem = driveSubsystem;
-    this.joystick = joystick;
 
-    JoystickButton ligaMotorDrive = new JoystickButton(joystick, XboxController.Button.kB.value);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

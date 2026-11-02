@@ -48,7 +48,7 @@ public class RobotContainer {
     kinematics = new Kinematics();
     lidarSubsystem = new LidarSubsystem();
 
-    omniDriveCmd = new OmniDriveCmd(driveSubsystem, joystick);
+    omniDriveCmd = new OmniDriveCmd(driveSubsystem );
 
     driveSubsystem.setDefaultCommand(new RunCommand(()-> driveSubsystem.stopMotorsDrive(), driveSubsystem  ));
     // Configure the button bindings
