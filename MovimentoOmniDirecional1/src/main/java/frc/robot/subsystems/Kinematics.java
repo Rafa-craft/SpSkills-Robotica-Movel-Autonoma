@@ -39,28 +39,29 @@ public class Kinematics{
   {
     
     
-    Vx = MathUtil.clamp(Vx, -100 , 100);
-    Vy = MathUtil.clamp(Vy, -100 , 100);
-    Vphi = MathUtil.clamp(Vphi, -180, 180);
+    //Vx = MathUtil.clamp(Vx, -1 , 1);
+    //Vy = MathUtil.clamp(Vy, -1 , 1);
+    //Vphi = MathUtil.clamp(Vphi, -1, 1);
 
-    Vx = Vx/100;
-    Vy = Vy/100;
-    Vphi = Vphi/180;
+    Vx = Math.abs(Vx) > 0.1 ? Vx : 0.0; //se abs de x for maior que deadband manda x senao manda 0
+    Vy = Math.abs(Vy) > 0.1 ? Vy : 0.0;
+    Vphi = Math.abs(Vphi) > 0.1 ? Vphi : 0.0;
+    
 
     double spBack; 
     double spLeft; 
     double spRight;
 
-    double wheelRps = (Vphi/360)/kinematicConstants.robotAndWhellRatio;
-    double motorRps = wheelRps * 61;
-    double motorRpm = motorRps * 60;
+    //double wheelRps = (Vphi/360)/kinematicConstants.robotAndWhellRatio;
+    //double motorRps = wheelRps * 61;
+    //double motorRpm = motorRps * 60;
 
-    spLeft = (Vx * 0.866) - (Vy * 0.5) 
-    - (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);
-    spBack = Vy
-    - (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);;
-    spRight = -(Vx * 0.866) - (Vy * 0.5)
-    - (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);;
+    spLeft = (Vx * 0.866) - (Vy * 0.5) + Vphi;
+    //- (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);
+    spBack = Vy + Vphi;
+    //- (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);;
+    spRight = -(Vx * 0.866) - (Vy * 0.5) + Vphi;
+    //- (wheelRps*2* Math.PI * kinematicConstants.wheelRadius);;
 
     double max = Math.abs(spRight);
     if(Math.abs(spLeft) > max) max = Math.abs(spLeft);

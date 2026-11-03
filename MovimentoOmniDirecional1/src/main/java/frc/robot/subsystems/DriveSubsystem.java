@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   {
     MotorBack = titan.getMotor(Constants.M3);
     encoderBack = titan.getEncoder(Constants.kencoder3Channel, Constants.wheelDistPerTick);
-    
+
     MotorRight = titan.getMotor(Constants.M0);
     encoderRight = titan.getEncoder(Constants.kencoder0Channel, Constants.wheelDistPerTick);
     
@@ -143,6 +143,11 @@ public class DriveSubsystem extends SubsystemBase {
     {
       return encoderRight.getSpeed();
     }
+
+  public double getAverageEncoderForwardDist()
+  {
+    return (getEncoderRightDist() + -getEncoderLeftDist())/2;
+  }
   /**
    * Zera o valor dos encoders
    */
@@ -168,10 +173,12 @@ public class DriveSubsystem extends SubsystemBase {
     {
       SmartDashboard.putNumber("EncoderBack/ dist", getEncoderBackDist());
       SmartDashboard.putNumber("EncoderBack/ speed", getSpeedEncoderBack());
-      SmartDashboard.putNumber("EncoderLeft/ dist", getEncoderLeftDist());
-      SmartDashboard.putNumber("EncoderLeft/ speed", getSpeedEncoderLeft());
       SmartDashboard.putNumber("EncoderRight/ dist", getEncoderRightDist());
       SmartDashboard.putNumber("EncoderRight/ speed", getSpeedEncoderRight());
+      SmartDashboard.putNumber("EncoderLeft/ dist", getEncoderLeftDist());
+      SmartDashboard.putNumber("EncoderLeft/ speed", getSpeedEncoderLeft());
+
+      SmartDashboard.putNumber("Encoders Average/ forward dist", getAverageEncoderForwardDist());
 
       kinematics.cinematica();
     }

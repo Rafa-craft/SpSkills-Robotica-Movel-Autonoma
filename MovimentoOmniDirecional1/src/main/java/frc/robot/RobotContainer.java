@@ -12,6 +12,8 @@ import com.studica.frc.Titan;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.AutoCommand;
+import frc.robot.commands.DriveToDistanceCmd;
 import frc.robot.commands.OmniDriveCmd;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Kinematics;
@@ -30,11 +32,13 @@ public class RobotContainer {
 
   private final Titan titan = new Titan(Constants.TITAN_ID);
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem driveSubsystem; 
+  public static DriveSubsystem driveSubsystem; 
   private final Kinematics kinematics;
   private final LidarSubsystem lidarSubsystem;
 
-  private final OmniDriveCmd omniDriveCmd;
+  public static DriveToDistanceCmd driveToDistanceCmd;
+  public static OmniDriveCmd omniDriveCmd;
+  public static AutoCommand autoCommand;
 
   private final XboxController joystick = new  XboxController(0);
 
@@ -48,10 +52,16 @@ public class RobotContainer {
     kinematics = new Kinematics();
     lidarSubsystem = new LidarSubsystem();
 
-    omniDriveCmd = new OmniDriveCmd(driveSubsystem );
+    omniDriveCmd = new OmniDriveCmd();
+    autoCommand = new AutoCommand();
 
-    driveSubsystem.setDefaultCommand(new RunCommand(()-> driveSubsystem.stopMotorsDrive(), driveSubsystem  ));
+    driveSubsystem.setDefaultCommand(new RunCommand (()-> driveSubsystem.setOmniDrive(
+                                                          joystick.getRawAxis(0),
+                                                          joystick.getRawAxis(1),
+                                                          joystick.getRawAxis(2)),
+                                                          driveSubsystem));
     // Configure the button bindings
+    autoCommand.addRequirements(driveSubsystem);
     configureButtonBindings();
   }
 
@@ -63,16 +73,20 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    JoystickButton ligaMotorDriveDir = new JoystickButton(joystick, XboxController.Button.kA.value);
-    JoystickButton ligaMotorDriveEsq = new JoystickButton(joystick, XboxController.Button.kY.value);
-    JoystickButton desligaMotor = new JoystickButton(joystick, XboxController.Button.kB.value);
+    final JoystickButton ligaMotorDriveDir = new JoystickButton(joystick, XboxController.Button.kA.value);
+    final JoystickButton ligaMotorDriveEsq = new JoystickButton(joystick, XboxController.Button.kY.value);
+    final JoystickButton desligaMotor = new JoystickButton(joystick, XboxController.Button.kB.value);
     //JoystickButton PutLidarData = new JoystickButton(joystick, XboxController.Button.kY.value);
 
     //PutLidarData.whenActive(new RunCommand(() -> lidarSubsystem.PutDataLidar(), lidarSubsystem));
     
-    ligaMotorDriveEsq.whenPressed(new RunCommand (()-> driveSubsystem.setOmniDrive(0.0,100.0,0.0), driveSubsystem));
-    ligaMotorDriveDir.whenPressed(new RunCommand (()-> driveSubsystem.setOmniDrive(0.0,-100.0,0.0), driveSubsystem));
-    desligaMotor.whenPressed(new RunCommand (() -> driveSubsystem.stopMotorsDrive(), driveSubsystem));
+    //ligaMotorDriveEsq.whenPressed(new RunCommand (()-> driveSubsystem.setOmniDrive(
+    //                                                   joystick.getRawAxis(0),
+    //                                                   joystick.getRawAxis(1),
+    //                                                   joystick.getRawAxis(4)),
+    //                                                   driveSubsystem));
+    //ligaMotorDriveDir.whenPressed(new RunCommand (()-> driveSubsystem.setOmniDrive(0.0,-100.0,0.0), driveSubsystem));
+    ligaMotorDriveDir.whenPressed(new AutoCommand());
   }
 
 

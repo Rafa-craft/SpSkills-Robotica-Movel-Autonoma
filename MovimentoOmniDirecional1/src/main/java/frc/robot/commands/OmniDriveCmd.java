@@ -10,17 +10,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class OmniDriveCmd extends CommandBase {
   
-  private final DriveSubsystem driveSubsystem;
+  private final DriveSubsystem driveSubsystem = RobotContainer.driveSubsystem;
   /**
    * Creates a new OmniDriveCmd.
    */
-  public OmniDriveCmd(DriveSubsystem driveSubsystem) 
+  public OmniDriveCmd() 
   {
-    this.driveSubsystem = driveSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
