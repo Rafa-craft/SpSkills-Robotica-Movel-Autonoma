@@ -7,8 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.studica.frc.Titan;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,10 +22,13 @@ public class DriveSubsystem extends SubsystemBase {
   public final Titan.Motor MotorBack;
   public final Titan.Motor MotorRight;
   public final Titan.Motor MotorLeft;
+
   public final Titan.Encoder encoderBack;
   public final Titan.Encoder encoderRight;
   public final Titan.Encoder encoderLeft;
 
+  private final AHRS ahrs;
+  
   public double spBack;
   public double spLeft;
   public double spRight;
@@ -32,15 +37,17 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public DriveSubsystem(Titan titan) 
   {
-    MotorBack = titan.getMotor(Constants.M3);
-    encoderBack = titan.getEncoder(Constants.kencoder3Channel, Constants.wheelDistPerTick);
-
-    MotorRight = titan.getMotor(Constants.M0);
-    encoderRight = titan.getEncoder(Constants.kencoder0Channel, Constants.wheelDistPerTick);
+    MotorBack = titan.getMotor(Constants.DriveConstants.M3);
+    encoderBack = titan.getEncoder(Constants.DriveConstants.kencoder3Channel, Constants.DriveConstants.wheelDistPerTick);
     
-    MotorLeft = titan.getMotor(Constants.M2);
-    encoderLeft = titan.getEncoder(Constants.kencoder2Channel, Constants.wheelDistPerTick);
-
+    MotorRight = titan.getMotor(Constants.DriveConstants.M0);
+    encoderRight = titan.getEncoder(Constants.DriveConstants.kencoder0Channel, Constants.DriveConstants.wheelDistPerTick);
+    
+    MotorLeft = titan.getMotor(Constants.DriveConstants.M2);
+    encoderLeft = titan.getEncoder(Constants.DriveConstants.kencoder2Channel, Constants.DriveConstants.wheelDistPerTick);
+    
+    ahrs = new AHRS(SPI.Port.kMXP);
+    
     kinematics = new Kinematics();
   }
 
@@ -49,6 +56,20 @@ public class DriveSubsystem extends SubsystemBase {
   {
     telemetria();
   }
+  
+  public void telemetria()
+    {
+      SmartDashboard.putNumber("EncoderBack/ dist", getEncoderBackDist());
+      SmartDashboard.putNumber("EncoderBack/ speed", getSpeedEncoderBack());
+      SmartDashboard.putNumber("EncoderRight/ dist", getEncoderRightDist());
+      SmartDashboard.putNumber("EncoderRight/ speed", getSpeedEncoderRight());
+      SmartDashboard.putNumber("EncoderLeft/ dist", getEncoderLeftDist());
+      SmartDashboard.putNumber("EncoderLeft/ speed", getSpeedEncoderLeft());
+
+      SmartDashboard.putNumber("Encoders Average/ forward dist", getAverageEncoderForwardDist());
+
+      kinematics.cinematica();
+    }
   /**
    * Define a velocidade do motor de tras
    * @param speed de -1 a 1
@@ -169,17 +190,4 @@ public class DriveSubsystem extends SubsystemBase {
     setMotorsDriveSpeed(spBack, spRight, spLeft);
   }
 
-  public void telemetria()
-    {
-      SmartDashboard.putNumber("EncoderBack/ dist", getEncoderBackDist());
-      SmartDashboard.putNumber("EncoderBack/ speed", getSpeedEncoderBack());
-      SmartDashboard.putNumber("EncoderRight/ dist", getEncoderRightDist());
-      SmartDashboard.putNumber("EncoderRight/ speed", getSpeedEncoderRight());
-      SmartDashboard.putNumber("EncoderLeft/ dist", getEncoderLeftDist());
-      SmartDashboard.putNumber("EncoderLeft/ speed", getSpeedEncoderLeft());
-
-      SmartDashboard.putNumber("Encoders Average/ forward dist", getAverageEncoderForwardDist());
-
-      kinematics.cinematica();
-    }
 }

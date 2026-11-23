@@ -1,0 +1,14 @@
+path: C:\Users\rafae\OneDrive\Documentos\SPskills\GitHub\Módulo Visão\yolov11-video\treinamento
+train: images/train
+val: images/val
+
+
+nc: 7
+names: ['FIcha de Poker Verde N20', 'Ficha de Poker Azul N50', 'Ficha de Poker Branca N5', 'Ficha de Poker Preta N100', 'Ficha de Poker Vermelha N10', 'Peca de Dama Branca', 'Peca de Dama Preta']
+
+roboflow:
+  workspace: equipe-co-fodees-do-senai
+  project: pecas_poker
+  version: 6
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/equipe-co-fodees-do-senai/pecas_poker/dataset/6

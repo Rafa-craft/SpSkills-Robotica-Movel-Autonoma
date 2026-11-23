@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 from collections import Counter
 
-model = YOLO("yolo11n.pt")
+model = YOLO("best.pt")
 cap = cv2.VideoCapture(0)
 
 while True:

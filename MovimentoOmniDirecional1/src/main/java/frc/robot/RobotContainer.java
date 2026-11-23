@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
 
-  private final Titan titan = new Titan(Constants.TITAN_ID);
+  private final Titan titan = new Titan(Constants.DriveConstants.TITAN_ID);
   // The robot's subsystems and commands are defined here...
   public static DriveSubsystem driveSubsystem; 
   private final Kinematics kinematics;

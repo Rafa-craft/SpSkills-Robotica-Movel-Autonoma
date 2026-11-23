@@ -64,7 +64,7 @@ public class SimpleDrive extends CommandBase
   @Override
   public void execute() 
   {
-    driveSubsystem.setMotorSpeed(); // Set motor speed to 50%
+    driveSubsystem.setMotorSpeed(0.5); // Set motor speed to 50%
   }
 
   

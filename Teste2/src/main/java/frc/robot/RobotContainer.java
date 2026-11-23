@@ -119,8 +119,8 @@ public class RobotContainer
     JoystickButton ligaMotorDrive = new JoystickButton(joystick, XboxController.Button.kA.value);
     JoystickButton resetMotorsButton = new JoystickButton(joystick, XboxController.Button.kB.value);
 
-    ligaMotorDrive.whenPressed(pidControlerCmd);
-    resetMotorsButton.whenPressed(resetMotors);
+    ligaMotorDrive.whileHeld(new RunCommand( ()-> driveSubsystem.setMotorSpeed(0.025), driveSubsystem));
+    resetMotorsButton.whileHeld(new RunCommand( ()-> driveSubsystem.setMotorSpeed(-1.0), driveSubsystem));
 
     
     

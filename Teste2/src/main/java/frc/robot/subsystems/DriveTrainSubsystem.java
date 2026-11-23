@@ -59,15 +59,15 @@ public class DriveTrainSubsystem extends SubsystemBase
      * <p>
      * @param speed range -1 to 1 (0 stop)
      */
-    public void setMotorSpeed( )
+    public void setMotorSpeed(double speed)
     {
-        motor.set(0.5);
+        motor.set(speed);
     }
 
     public Command ligaMotor()
     {
 
-      return new SequentialCommandGroup(new InstantCommand(() -> this.setMotorSpeed(), this),
+      return new SequentialCommandGroup(new InstantCommand(() -> this.setMotorSpeed(0.5), this),
              new WaitCommand(5),
              new RunCommand(() -> this.stopMotorDrive(), this));
     }
@@ -86,9 +86,14 @@ public class DriveTrainSubsystem extends SubsystemBase
       return new RunCommand(() -> this.stopMotorDrive(), this);
     }
 
-    public double getSpeedEncoderDrive()
+    public double getSpeedEncoder()
     {
-      return encoder.getSpeed();
+        double speed = encoder.getSpeed();
+        if(speed >= 372.23){
+            speed -= 655.35;
+        }
+        
+        return speed * 100 ;
     }
 
     public double getDistEncoderDrive()
@@ -108,7 +113,7 @@ public class DriveTrainSubsystem extends SubsystemBase
     public void telemetria(){
 
       SmartDashboard.putBoolean("driveSubsystem/Atingiu Velocidade", this.isAtSpeedDrive());
-      SmartDashboard.putNumber("driveSubsystem/Velociade RPM", this.getSpeedEncoderDrive());
+      SmartDashboard.putNumber("driveSubsystem/Velociade RPM", this.getSpeedEncoder());
       SmartDashboard.putNumber("driveSubsystem/Distancia encoder", this.getDistEncoderDrive());
 
 
